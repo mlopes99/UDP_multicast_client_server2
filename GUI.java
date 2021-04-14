@@ -8,6 +8,7 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 
 
+
 public class GUI extends JFrame{
     private JPanel mainPanel;
     private JPanel sendPanel;
@@ -22,6 +23,11 @@ public class GUI extends JFrame{
 
     int seqNumber;
 
+    /**
+    * Creates instance of GUI Object, adds actionListener to buttons
+    * Specifies what needs to be done when buttons pushed
+    * @param title 
+    **/
     private GUI(String title){
         super(title);
         init();
@@ -68,6 +74,10 @@ public class GUI extends JFrame{
     }
 
 
+    /**
+    *Initialises GUI
+    **/
+    
     public void init(){
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(2,2));
@@ -128,7 +138,6 @@ public class GUI extends JFrame{
             client = new Client("225.6.7.8", 3456);
 
 
-            //Initialise Sequence Number
 
 
             // Create socket
