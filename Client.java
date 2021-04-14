@@ -3,6 +3,7 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.io.IOException;
 import java.net.DatagramSocket;
@@ -31,14 +32,15 @@ public class Client {
         // socket.joinGroup(InetAddress.getByName(ip));
     }
     
-    //send message to server
-    public void sendMessage(String message, String ip, int port) throws IOException{
+    //send message and sequence number to server
+    public void sendMessage(String message, int seqNumber, String ip, int port) throws IOException{
         System.out.println("send method invoked");
         // make datagram packet
         byte[] buffer = message.getBytes();
-        byte[] seqNumberByte = intToByte(4);
+        byte[] seqNumberByte = intToByte(seqNumber);
         byte[] send = mergeSeqAndMessage(seqNumberByte, buffer);
-        DatagramPacket packet = new DatagramPacket(buffer, buffer.length,
+        System.out.println(Arrays.toString(send));
+        DatagramPacket packet = new DatagramPacket(send, send.length,
                 InetAddress.getByName(ip), port);
         // send packet
         dgSocket.send(packet);
@@ -59,7 +61,6 @@ public class Client {
 
     try {
         //final String ip = args[0];
-        
         System.setProperty("java.net.preferIPv4Stack", "true");
         Scanner sc = new Scanner(System.in);
         //final int port = Integer.parseInt(args[1]);
@@ -77,11 +78,13 @@ public class Client {
         String name = sc.nextLine();
 
         // Send name to server
-        client.sendMessage(name,"192.168.43.200", 3568 );
+        client.sendMessage(name,0,"192.168.0.103", 3568 );
 
+        int seqNumber = 0; // initialise seqNumber;
         while(true){
             String message = sc.nextLine(); 
-            client.sendMessage(message,"192.168.43.200", 3568 );
+            client.sendMessage(message, seqNumber, "192.168.0.103", 3568 );
+            seqNumber ++;
         }
 
         //client.close();

@@ -37,10 +37,7 @@ class ReceiveThread implements Runnable {
                 
                 // receive the packet
                 socket.receive(packet);
-                int seqNumber = getSeqNumber(message);
-                String mess = getMessage(message);
-                System.out.println(seqNumber + ": " + mess);
-                //System.out.println(new String(message, 0, packet.getLength()));
+                System.out.println(new String(message, 0, packet.getLength()));
             }
             catch (Exception e){
                 e.printStackTrace();
