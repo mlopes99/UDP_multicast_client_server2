@@ -18,11 +18,8 @@ import java.net.SocketException;
 public class Server {
 
     private static DatagramSocket serverSocket;
-
     private String ip;
-
     private int port;
-
     public ArrayList<InetSocketAddress> previousConnections;
     public ArrayList<User> users;
 
@@ -36,7 +33,7 @@ public class Server {
 
         this.ip = ip;
         this.port = port;
-        // socket used to send
+        // Socket used to send
         serverSocket = new DatagramSocket(port );
         previousConnections = new ArrayList<InetSocketAddress>();
         users = new ArrayList<User>();
@@ -48,11 +45,13 @@ public class Server {
      * @throws IOException
      */
     public void send(String msg) throws IOException{
-        // make datagram packet
+        
+        // Make datagram packet
         byte[] message = (msg).getBytes();
         DatagramPacket packet = new DatagramPacket(message, message.length,
         InetAddress.getByName("225.6.7.8"), 3456);
-        // send packet
+        
+        // Send packet
         serverSocket.send(packet);
     }
 
@@ -69,15 +68,14 @@ public class Server {
     public void receiveMessage() throws IOException{
 
         while(true){
-            // make datagram packet to recieve
+            // Make datagram packet to recieve
             byte[] message = new byte[256];
             DatagramPacket packet = new DatagramPacket(message, message.length);
 
-            // recieve the packet
+            // Recieve the packet
             serverSocket.receive(packet);
             int receivedSeqNumber = getSeqNumber(message); // Extracts Sequence Number
             int receivedHashNumber = getHashNumber(message); // Extract received hash number
-
             String receivedData = getMessage(message); // Extracts Message
             receivedData = receivedData.trim();
 
@@ -87,15 +85,12 @@ public class Server {
             }
 
 
-            //get sender information
+            // Get sender information
             int clientPort = packet.getPort();
             InetAddress clientAdd = packet.getAddress();
             InetSocketAddress clientSocAdd = new InetSocketAddress(clientAdd, clientPort);
             System.out.println(receivedData);
             System.out.println("Received Sequence Number From Client: "+ receivedSeqNumber);
-
-
-
 
             // If client not connnected before initialise user, print new user to server and send new user name to all clients
             if (!previousConnections.contains(clientSocAdd)){
@@ -103,16 +98,15 @@ public class Server {
                 send("new user " + receivedData + " has joined chat");
                 previousConnections.add(clientSocAdd);
                 previousConnections.add(clientSocAdd);
-
                 User user = new User(receivedData, clientSocAdd);
                 users.add(user);
             }
-            else{
-                for (int i = 0; i <= users.size() - 1; i ++){
-                    if (clientSocAdd.equals(users.get(i).getInet())){
+            else {
+                for (int i = 0; i <= users.size() - 1; i ++) {
+                    if (clientSocAdd.equals(users.get(i).getInet())) {
                         String name = users.get(i).getUserName();
                         int userMessageCount = users.get(i).getMessageCount(); // Gets message count from user Object
-                        if (receivedSeqNumber != userMessageCount){   // Tests to see whether the received sequence number matches that of the user object
+                        if (receivedSeqNumber != userMessageCount) {   // Tests to see whether the received sequence number matches that of the user object
                             System.out.println("Please resend message: " + userMessageCount); // Asks to resend the missing message
                             users.get(i).upDateMessageCount(); // Updates User Object message count so program can continue as usual
                         }
@@ -131,9 +125,7 @@ public class Server {
             // final int port = Integer.parseInt(args[1]);
             // Server server = new Server(ip, port);
             System.setProperty("java.net.preferIPv4Stack", "true");
-
             Server server = new Server("192.168.0.103", 3568);
-
             server.receiveMessage();
         } 
         catch (IOException ex) {
