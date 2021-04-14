@@ -19,21 +19,16 @@ public class Client {
     // private MulticastSocket socket;
     // private ReceiveThread receiveThread;
 
-    /* Constructor */
-    public Client(String ip, int port) throws IOException {
+    /** Creates an instance of Client Object
+    **/
+    public Client() throws IOException {
         
-        // important that this is a multicast socket to receive from server
 
         
-        //socket to send to server, random port assigned to socket
+        // Socket to send to server, random port assigned to socket
         dgSocket = new DatagramSocket();
         
-        //create thread to receive messages
-        // receiveThread = new ReceiveThread(socket = new MulticastSocket(port));
-
-
-        // join by ip
-        // socket.joinGroup(InetAddress.getByName(ip));
+        
     }
 
     /** send message and sequence number to server
