@@ -44,19 +44,19 @@ public class Client {
      * @throws IOException
      */
     public void sendMessage(String message, int seqNumber, String ip, int port) throws IOException{
-        System.out.println("send method invoked");
-        // make datagram packet
+
+        // Make datagram packet
         byte[] buffer = message.getBytes();
         byte[] seqNumberByte = intToByte(seqNumber);
         byte[] send = mergeSeqAndMessage(seqNumberByte, buffer);
         System.out.println(Arrays.toString(send));
         DatagramPacket packet = new DatagramPacket(send, send.length,
                 InetAddress.getByName(ip), port);
-        // send packet
+        // Send packet
         dgSocket.send(packet);
     }
 
-    //receive message moved to receive thread
+    // Receive message moved to receive thread
     // public void printMessage() throws IOException{
     //     // make datagram packet to recieve
     //     byte[] message = new byte[1024*4];
