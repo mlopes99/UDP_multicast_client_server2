@@ -1,3 +1,7 @@
+/** Client Class for sending and receiving messages sent to and from the server
+ * @author Michael Scott, Michelle Lopes, Tuscanny Botha
+ */
+
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
@@ -15,7 +19,7 @@ public class Client {
     // private MulticastSocket socket;
     // private ReceiveThread receiveThread;
 
-    
+    /* Constructor */
     public Client(String ip, int port) throws IOException {
         
         // important that this is a multicast socket to receive from server
@@ -31,8 +35,14 @@ public class Client {
         // join by ip
         // socket.joinGroup(InetAddress.getByName(ip));
     }
-    
-    //send message and sequence number to server
+
+    /** send message and sequence number to server
+     * @param message
+     * @param seqNumber
+     * @param ip
+     * @param port
+     * @throws IOException
+     */
     public void sendMessage(String message, int seqNumber, String ip, int port) throws IOException{
         System.out.println("send method invoked");
         // make datagram packet
@@ -91,12 +101,26 @@ public class Client {
     } catch (IOException ex) {
         ex.printStackTrace();}
 }
+
+    /** Converts an integer to a byte array
+     * @param num
+     */
     public static byte[] intToByte(int num) {
         return ByteBuffer.allocate(4).putInt(num).array();
     }
+
+    /** Converts a byte array to an integer
+     * @param bytes
+     * @return
+     */
     public static int byteArrayToInt(byte[] bytes) {
         return ByteBuffer.wrap(bytes).getInt();
     }
+
+    /** Merges the byte array for the integer sequence number with the byte array for the String message
+     * @param seqNumber
+     * @param message
+     */
     public static byte[] mergeSeqAndMessage(byte[] seqNumber, byte[] message){
         int length = seqNumber.length + message.length;
         byte[] merged = new byte[length];
@@ -104,6 +128,11 @@ public class Client {
         System.arraycopy(message, 0, merged, seqNumber.length, message.length);
         return merged;
     }
+
+    /** Gets the Sequence Number From the merged byte array
+     * @param merged
+     * @return
+     */
     public static int getSeqNumber(byte[] merged){
         byte[] seqNumber = new byte[4];
         System.arraycopy(merged, 0, seqNumber, 0, seqNumber.length);

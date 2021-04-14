@@ -1,4 +1,8 @@
-//https://riptutorial.com/java/example/14572/multicasting
+/** Server Class That Receives messages from  clients and sends the message out to all the clients in the same multicast Group
+ * Manages and maintains a list of ip Addresses and port numbers with the corresponding user name
+ * @author Michael Scott, Michelle Lopes, Tuscany Botha
+ * https://riptutorial.com/java/example/14572/multicasting
+ */
 
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -22,6 +26,12 @@ public class Server {
     public ArrayList<InetSocketAddress> previousConnections;
     public ArrayList<User> users;
 
+    /** Constructor
+     * @param ip
+     * @param port
+     * @throws SocketException
+     * @throws IOException
+     */
     public Server(String ip, int port) throws SocketException, IOException{
 
         this.ip = ip;
@@ -33,7 +43,10 @@ public class Server {
     }
 
 
-    //send using multicast SocketException
+    /** Send using multicast SocketException
+     * @param msg
+     * @throws IOException
+     */
     public void send(String msg) throws IOException{
         // make datagram packet
         byte[] message = (msg).getBytes();
@@ -43,11 +56,16 @@ public class Server {
         serverSocket.send(packet);
     }
 
+    /** Closes Socket
+     */
     public void close(){
         serverSocket.close();
     }
 
-
+    /** Receives messages from client and manages sequence numbers from the client and for those in the user object.
+     * Tells the user if a message is missing
+     * @throws IOException
+     */
     public void receiveMessage() throws IOException{
 
         while(true){
@@ -131,12 +149,19 @@ public class Server {
             ex.printStackTrace();
         }
     }
+
+    /** Gets the Sequence Number From the merged byte array
+     * @param merged
+     */
     public static int getSeqNumber(byte[] merged){
         byte[] seqNumber = new byte[4];
         System.arraycopy(merged, 0, seqNumber, 0, seqNumber.length);
         return Client.byteArrayToInt(seqNumber);
     }
 
+    /** Gets the message From the merged byte array
+     * @param merged
+     */
     public static String getMessage(byte[] merged) {
         byte[] message = new byte[merged.length - 4];
         System.arraycopy(merged, 4, message, 0, message.length);

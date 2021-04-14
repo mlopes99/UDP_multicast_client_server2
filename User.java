@@ -1,3 +1,7 @@
+/** User Class for maintaining all the information needed for each user object
+ * @author Michael Scott, Michelle Lopes, Tuscany Botha
+ */
+
 import java.net.InetSocketAddress;
 
 public class User {
@@ -6,27 +10,38 @@ public class User {
         private int messageCount;
         private InetSocketAddress IP;
 
-
-        public User(String userName, InetSocketAddress IP){
+    /** Constructor
+     * @param userName
+     * @param IP
+     */
+    public User(String userName, InetSocketAddress IP){
             this.userName = userName;
             //this.userNumber = userNumber;
             this.messageCount = 0;
             this.IP = IP;
         }
-        public void upDateMessageCount(){
+
+    /** Updates the users messagecount
+     */
+    public void upDateMessageCount(){
             messageCount ++;
         }
 
-        public int getMessageCount(){
+    /** Gets the users message count
+     */
+    public int getMessageCount(){
             return messageCount;
         }
 
-
-        public String getUserName() {
+    /** Gets the username
+     */
+    public String getUserName() {
             return userName;
         }
 
-        public InetSocketAddress getInet(){
+    /** Gets the IP address
+     */
+    public InetSocketAddress getInet(){
             return IP;
         }
 
