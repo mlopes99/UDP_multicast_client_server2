@@ -76,9 +76,15 @@ public class Server {
             // recieve the packet
             serverSocket.receive(packet);
             int receivedSeqNumber = getSeqNumber(message); // Extracts Sequence Number
+            int receivedHashNumber = getHashNumber(message); // Extract received hash number
 
             String receivedData = getMessage(message); // Extracts Message
             receivedData = receivedData.trim();
+
+            if (receivedHashNumber != receivedData.hashCode()){   // Checks whether recieved has is equal to the hash of the received message
+                System.out.println("Your Message was corrupted. Please resend");
+                continue;
+            }
             //String receivedData = new String(packet.getData());
             //receivedData = receivedData.trim();
 
@@ -163,8 +169,14 @@ public class Server {
      * @param merged
      */
     public static String getMessage(byte[] merged) {
-        byte[] message = new byte[merged.length - 4];
-        System.arraycopy(merged, 4, message, 0, message.length);
+        byte[] message = new byte[merged.length - 8];
+        System.arraycopy(merged, 8, message, 0, message.length);
         return new String(message);
+    }
+
+    public static int getHashNumber(byte[] merged){
+        byte[] hash = new byte[4];
+        System.arraycopy(merged, 4, hash, 0, hash.length);
+        return Client.byteArrayToInt(hash);
     }
 }

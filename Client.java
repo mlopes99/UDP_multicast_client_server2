@@ -48,7 +48,9 @@ public class Client {
         // Make datagram packet
         byte[] buffer = message.getBytes();
         byte[] seqNumberByte = intToByte(seqNumber);
-        byte[] send = mergeSeqAndMessage(seqNumberByte, buffer);
+        int hash = message.hashCode();
+        byte[] hashByte = intToByte(hash);
+        byte[] send = mergeSeqAndMessage(seqNumberByte, hashByte, buffer);
         System.out.println(Arrays.toString(send));
         DatagramPacket packet = new DatagramPacket(send, send.length,
                 InetAddress.getByName(ip), port);
@@ -121,11 +123,12 @@ public class Client {
      * @param seqNumber
      * @param message
      */
-    public static byte[] mergeSeqAndMessage(byte[] seqNumber, byte[] message){
-        int length = seqNumber.length + message.length;
+    public static byte[] mergeSeqAndMessage(byte[] seqNumber,byte[] hash, byte[] message){
+        int length = seqNumber.length + hash.length + message.length;
         byte[] merged = new byte[length];
         System.arraycopy(seqNumber, 0, merged, 0, seqNumber.length);
-        System.arraycopy(message, 0, merged, seqNumber.length, message.length);
+        System.arraycopy(hash, 0, merged, seqNumber.length,  hash.length);
+        System.arraycopy(message, 0, merged, seqNumber.length+hash.length, message.length);
         return merged;
     }
 
