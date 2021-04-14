@@ -43,7 +43,7 @@ class ReceiveThread implements Runnable {
                 byte[] message = new byte[1024*4];
                 DatagramPacket packet = new DatagramPacket(message, message.length);
                 
-                // receive the packet
+                // Receive the packet
                 socket.receive(packet);
                 System.out.println(new String(message, 0, packet.getLength()));
             }
