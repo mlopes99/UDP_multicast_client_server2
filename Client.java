@@ -22,13 +22,9 @@ public class Client {
     /** Creates an instance of Client Object
     **/
     public Client() throws IOException {
-        
-
-        
+       
         // Socket to send to server, random port assigned to socket
         dgSocket = new DatagramSocket();
-        
-        
     }
 
     /** send message and sequence number to server
@@ -49,6 +45,7 @@ public class Client {
         System.out.println(Arrays.toString(send));
         DatagramPacket packet = new DatagramPacket(send, send.length,
                 InetAddress.getByName(ip), port);
+        
         // Send packet
         dgSocket.send(packet);
     }
@@ -81,14 +78,14 @@ public class Client {
         // Create and run receive thread
         Thread receiveThread = new Thread(new ReceiveThread(mcsocket));
         receiveThread.start();
+       
+        // Send name to server
         System.out.println("enter name: ");
         String name = sc.nextLine();
-
-        // Send name to server
         client.sendMessage(name,0,"192.168.0.103", 3568 );
 
         int seqNumber = 0; // initialise seqNumber;
-        while(true){
+        while (true){
             String message = sc.nextLine(); 
             client.sendMessage(message, seqNumber, "192.168.0.103", 3568 );
             seqNumber ++;
