@@ -85,8 +85,7 @@ public class Server {
                 System.out.println("Your Message was corrupted. Please resend");
                 continue;
             }
-            //String receivedData = new String(packet.getData());
-            //receivedData = receivedData.trim();
+
 
             //get sender information
             int clientPort = packet.getPort();
@@ -98,20 +97,17 @@ public class Server {
 
 
 
-            //if client not connnected before initialise user, print new user to server and send new user name to all clients
+            // If client not connnected before initialise user, print new user to server and send new user name to all clients
             if (!previousConnections.contains(clientSocAdd)){
                 System.out.println("new user");
                 send("new user " + receivedData + " has joined chat");
                 previousConnections.add(clientSocAdd);
-                //TODO: add new Client to User array
                 previousConnections.add(clientSocAdd);
 
                 User user = new User(receivedData, clientSocAdd);
                 users.add(user);
             }
-            //TODO: else get user name from USER array? then send message with user name
             else{
-
                 for (int i = 0; i <= users.size() - 1; i ++){
                     if (clientSocAdd.equals(users.get(i).getInet())){
                         String name = users.get(i).getUserName();
@@ -120,18 +116,12 @@ public class Server {
                             System.out.println("Please resend message: " + userMessageCount); // Asks to resend the missing message
                             users.get(i).upDateMessageCount(); // Updates User Object message count so program can continue as usual
                         }
-
                         System.out.println("Sequence Number in User Object: " + userMessageCount);
                         send(name +": "+ receivedData);
                         users.get(i).upDateMessageCount();
                     }
                 }
             }
-
-
-
-
-            //send("reply");
         }
     }
 
@@ -142,16 +132,11 @@ public class Server {
             // Server server = new Server(ip, port);
             System.setProperty("java.net.preferIPv4Stack", "true");
 
-            //TODO: Change to no longer be localhost
             Server server = new Server("192.168.0.103", 3568);
 
             server.receiveMessage();
-
-
-
-            //server.send();
-            //server.close();
-        } catch (IOException ex) {
+        } 
+        catch (IOException ex) {
             ex.printStackTrace();
         }
     }
