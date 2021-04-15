@@ -14,6 +14,7 @@ public class GUI extends JFrame{
     private JPanel sendPanel;
     private JPanel namePanel;
     private JTextField nameField;
+    private JTextField ipField;
     private JButton joinChatButton;
     private JTextArea outputArea;
     private JTextField typeMessageTextField;
@@ -23,11 +24,13 @@ public class GUI extends JFrame{
 
     int seqNumber;
 
+    String ipAdd;
+
     /**
-    * Creates instance of GUI Object, adds actionListener to buttons
-    * Specifies what needs to be done when buttons pushed
-    * @param title 
-    **/
+     * Creates instance of GUI Object, adds actionListener to buttons
+     * Specifies what needs to be done when buttons pushed
+     * @param title
+     **/
     private GUI(String title){
         super(title);
         init();
@@ -37,8 +40,9 @@ public class GUI extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 // grab the text from name text field
                 String name = nameField.getText();
+                ipAdd = ipField.getText();
                 try {
-                    client.sendMessage(name, 0,"192.168.1.56", 3568 );
+                    client.sendMessage(name, 0,ipAdd, 3568 );
                 }
                 catch (Exception exception) {
                     exception.printStackTrace();
@@ -59,7 +63,7 @@ public class GUI extends JFrame{
                     String message;
                     message =typeMessageTextField.getText();
                     typeMessageTextField.setText("");
-                    client.sendMessage(message, seqNumber ,"192.168.1.56", 3568 );
+                    client.sendMessage(message, seqNumber ,ipAdd, 3568 );
                     seqNumber++;
                 }
                 catch (Exception exception) {
@@ -75,9 +79,9 @@ public class GUI extends JFrame{
 
 
     /**
-    *Initialises GUI
-    **/
-    
+     *Initialises GUI
+     **/
+
     public void init(){
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(2,2));
@@ -86,8 +90,8 @@ public class GUI extends JFrame{
         sendPanel = new JPanel();
         sendPanel.setBorder(BorderFactory.createTitledBorder("Type Message below:"));
 
-        namePanel = new JPanel();
-        namePanel.setBorder(BorderFactory.createTitledBorder("Please Enter Name:"));
+        namePanel = new JPanel(new GridLayout(3, 0));
+        namePanel.setBorder(BorderFactory.createTitledBorder("Please Enter Name then Server IP Address:"));
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
@@ -96,6 +100,10 @@ public class GUI extends JFrame{
         nameField = new JTextField();
         nameField.setText("");
         nameField.setColumns(20);
+
+        ipField = new JTextField();
+        ipField.setText("");
+        ipField.setColumns(20);
 
         JLabel header = new JLabel();
         header.setBackground(new Color(-5437184));
@@ -122,6 +130,7 @@ public class GUI extends JFrame{
         sendPanel.add(sendButton);
 
         namePanel.add(nameField);
+        namePanel.add(ipField);
         namePanel.add(joinChatButton);
 
         mainPanel.add(namePanel);
