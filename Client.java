@@ -43,9 +43,8 @@ public class Client {
         int hash = message.hashCode();
         byte[] hashByte = intToByte(hash);
         byte[] send = mergeSeqAndMessage(seqNumberByte, hashByte, buffer);
-        System.out.println(Arrays.toString(send));
         DatagramPacket packet = new DatagramPacket(send, send.length,
-                InetAddress.getByName(ip), port);
+        InetAddress.getByName(ip), port);
         
         // Send packet
         dgSocket.send(packet);
