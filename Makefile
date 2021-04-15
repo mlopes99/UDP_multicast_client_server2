@@ -1,30 +1,39 @@
-JAVAC=/usr/bin/javac
+
+# Makefile: SCTMIC015
+
+JAVAC = /usr/bin/javac
 .SUFFIXES: .java .class
+
 SRCDIR=src
 BINDIR=bin
-DOCDIR=docs
+DOCDIR=doc
 
 $(BINDIR)/%.class:$(SRCDIR)/%.java
 	$(JAVAC) -d $(BINDIR)/ -cp $(BINDIR) $<
 
-CLASSES=  ReadThread.class Client.class Server.class GUI.class
-        
-CLASS_FILES=$(CLASSES:%.class=$(BINDIR)/%.class)
-default: $(CLASS_FILES)
+CLASSES=ReceiveThread.class Client.class GUI.class User.class Server.class
 
+CLASS_FILES=$(CLASSES:%.class=$(BINDIR)/%.class)
+
+default: $(CLASS_FILES)
+	
+docs:
+	javadoc -d $(DOCDIR) $(SRCDIR)/*.java
 clean:
 	rm $(BINDIR)/*.class
-
-docs:
-	javadoc -cp  ${BINDIR} -d ${DOCDIR} ${SRCDIR}/*.java
-
+run:
+	java -cp bin ReceiveThread
+run1:
+	java -cp bin Client
+run2: 
+	java -cp bin GUI
+run3:
+	java -cp bin User
+run4:
+	java -cp bin Server
 cleandocs:
 	rm -r docs/*
-
 runClient:
 	java -cp bin GUI
-
 runServer:
 	java -cp bin Server
-
-
