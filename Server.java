@@ -131,9 +131,6 @@ public class Server {
 
     public static void main(String[] args) {
         try {
-            // final String ip = args[0];
-            // final int port = Integer.parseInt(args[1]);
-            // Server server = new Server(ip, port);
             System.setProperty("java.net.preferIPv4Stack", "true");
             Server server = new Server(3568);
             server.receiveMessage();
