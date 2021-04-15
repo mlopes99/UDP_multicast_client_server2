@@ -16,7 +16,7 @@ A makefile has been included. Run the "make" command first. To run the server, r
 
 ## Using the GUI
 
-The GUI will open and request that the user enter their name and IP address. The name needs to be entered in the first box and the IP address of the machine hosting the serve in the second. The chat will open and the user can begin communicating. 
+The GUI will open and request that the user enter their name and IP address. The name needs to be entered in the first box and the IP address of the machine hosting the server in the second. The chat will open and the user can begin communicating. 
 
 ## Notes
 
