@@ -16,12 +16,13 @@ import java.util.Scanner;
 public class Client {
     
     private static DatagramSocket dgSocket;
-    // private MulticastSocket socket;
-    // private ReceiveThread receiveThread;
+    private String ipAdd;
+    int portNo;
+
 
     /** Creates an instance of Client Object
     **/
-    public Client() throws IOException {
+    public Client(String ip, int port) throws IOException {
        
         // Socket to send to server, random port assigned to socket
         dgSocket = new DatagramSocket();
