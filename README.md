@@ -10,7 +10,7 @@ This application is written entirely in Java.
 
 # Capabilities - User
 
-* [Group chat] : two or more users can use the chat app to communicate with each other.
+* **[Group chat] : two or more users can use the chat app to communicate with each other.
 * [Message receipt notification] : user is notified when their message is delivered to the recipient
 * [List of users in chat] : a new user is informed of all the users in the chat when they join
 * [Login] : only users with the correct pin are allowed to enter the chat
