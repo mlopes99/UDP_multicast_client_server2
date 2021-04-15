@@ -50,53 +50,6 @@ public class Client {
         dgSocket.send(packet);
     }
 
-
-    // Receive message moved to receive thread
-    // public void printMessage() throws IOException{
-    //     // make datagram packet to recieve
-    //     byte[] message = new byte[1024*4];
-    //     DatagramPacket packet = new DatagramPacket(message, message.length);
-        
-    //     // recieve the packet
-    //     socket.receive(packet);
-    //     System.out.println(new String(message, 0, packet.getLength()));
-    // }
-
-    public static void main(String[] args) {
-
-    try {
-        //final String ip = args[0];
-        System.setProperty("java.net.preferIPv4Stack", "true");
-        Scanner sc = new Scanner(System.in);
-        //final int port = Integer.parseInt(args[1]);
-        //Client client = new Client(ip, port);
-        Client client = new Client("225.6.7.8", 3456);
-
-        // Create socket
-        MulticastSocket mcsocket = new MulticastSocket(3456);
-        mcsocket.joinGroup(InetAddress.getByName("225.6.7.8"));
-
-        // Create and run receive thread
-        Thread receiveThread = new Thread(new ReceiveThread(mcsocket));
-        receiveThread.start();
-       
-        // Send name to server
-        System.out.println("enter name: ");
-        String name = sc.nextLine();
-        client.sendMessage(name,0,"192.168.0.103", 3568 );
-
-        int seqNumber = 0; // initialise seqNumber;
-        while (true){
-            String message = sc.nextLine(); 
-            client.sendMessage(message, seqNumber, "192.168.0.103", 3568 );
-            seqNumber ++;
-        }
-
-        //client.close();
-    } catch (IOException ex) {
-        ex.printStackTrace();}
-}
-
     /** Converts an integer to a byte array
      * @param num
      */
