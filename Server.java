@@ -18,7 +18,6 @@ import java.net.SocketException;
 public class Server {
 
     private static DatagramSocket serverSocket;
-    private String ip;
     private int port;
     public ArrayList<InetSocketAddress> previousConnections;
     public ArrayList<User> users;
@@ -29,9 +28,8 @@ public class Server {
      * @throws SocketException
      * @throws IOException
      */
-    public Server(String ip, int port) throws SocketException, IOException{
+    public Server(int port) throws SocketException, IOException{
 
-        this.ip = ip;
         this.port = port;
         // Socket used to send
         serverSocket = new DatagramSocket(port );
@@ -125,7 +123,7 @@ public class Server {
             // final int port = Integer.parseInt(args[1]);
             // Server server = new Server(ip, port);
             System.setProperty("java.net.preferIPv4Stack", "true");
-            Server server = new Server("192.168.0.103", 3568);
+            Server server = new Server(3568);
             server.receiveMessage();
         } 
         catch (IOException ex) {
