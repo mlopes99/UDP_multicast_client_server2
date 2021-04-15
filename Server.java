@@ -23,7 +23,6 @@ public class Server {
     public ArrayList<User> users;
 
     /** Constructor
-     * @param ip
      * @param port
      * @throws SocketException
      * @throws IOException
@@ -43,12 +42,12 @@ public class Server {
      * @throws IOException
      */
     public void send(String msg) throws IOException{
-        
+
         // Make datagram packet
         byte[] message = (msg).getBytes();
         DatagramPacket packet = new DatagramPacket(message, message.length,
-        InetAddress.getByName("225.6.7.8"), 3456);
-        
+                InetAddress.getByName("225.6.7.8"), 3456);
+
         // Send packet
         serverSocket.send(packet);
     }
@@ -94,10 +93,15 @@ public class Server {
             if (!previousConnections.contains(clientSocAdd)){
                 System.out.println("new user");
                 send("new user " + receivedData + " has joined chat");
-                previousConnections.add(clientSocAdd);
+                String usersInChat="Users in chat: ";
                 previousConnections.add(clientSocAdd);
                 User user = new User(receivedData, clientSocAdd);
                 users.add(user);
+                for (int i = 0; i <= users.size() - 1; i ++){
+                    System.out.println("User: "+ users.get(i).getUserName());
+                    usersInChat = usersInChat.concat(users.get(i).getUserName()+" ");
+                }
+                send(usersInChat);
             }
             else {
                 for (int i = 0; i <= users.size() - 1; i ++) {
@@ -125,7 +129,7 @@ public class Server {
             System.setProperty("java.net.preferIPv4Stack", "true");
             Server server = new Server(3568);
             server.receiveMessage();
-        } 
+        }
         catch (IOException ex) {
             ex.printStackTrace();
         }
