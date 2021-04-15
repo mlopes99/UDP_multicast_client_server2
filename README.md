@@ -8,6 +8,10 @@ This application enables communication between two or more users in a multicast 
 
 This application is written entirely in Java.
 
+# Getting Started
+
+Users need to run GUI.java. The GUI will open and request that the user enter their name and IP address. The name needs to be entered in the first box and the IP address in the second. The chat will open and the user can begin communicating. 
+
 # Capabilities - User
 
 * **Group chat**: two or more users can use the chat app to communicate with each other.
