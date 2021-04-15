@@ -8,4 +8,12 @@ This application enables communication between two or more users in a multicast 
 
 This application is written entirely in Java.
 
+# Getting started
+
+
+
 # Capabilities
+
+* Group chat: Two or more users can use the chat app to communicate with each other.
+* 
+
