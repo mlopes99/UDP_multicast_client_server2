@@ -50,6 +50,7 @@ public class Client {
         dgSocket.send(packet);
     }
 
+
     // Receive message moved to receive thread
     // public void printMessage() throws IOException{
     //     // make datagram packet to recieve

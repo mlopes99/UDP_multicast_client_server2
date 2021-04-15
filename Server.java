@@ -73,13 +73,9 @@ public class Server {
             serverSocket.receive(packet);
             int receivedSeqNumber = getSeqNumber(message); // Extracts Sequence Number
             int receivedHashNumber = getHashNumber(message); // Extract received hash number
+            //receivedHashNumber = 4; // Used to test if the server tells us that a message has been corrupted. Leave out when not testing.
             String receivedData = getMessage(message); // Extracts Message
             receivedData = receivedData.trim();
-
-            if (receivedHashNumber != receivedData.hashCode()){   // Checks whether recieved has is equal to the hash of the received message
-                System.out.println("Your Message was corrupted. Please resend");
-                continue;
-            }
 
 
             // Get sender information
@@ -104,16 +100,28 @@ public class Server {
                 send(usersInChat);
             }
             else {
+                if (receivedHashNumber != receivedData.hashCode()){   // Checks whether recieved hash is equal to the hash of the received message
+                    System.out.println("Your Message was corrupted. Please resend");
+                    send("Your Message was corrupted. Please resend");
+                    continue;
+                }
+                else{
+                    System.out.println("The Hash Functions matched");
+                }
                 for (int i = 0; i <= users.size() - 1; i ++) {
                     if (clientSocAdd.equals(users.get(i).getInet())) {
                         String name = users.get(i).getUserName();
                         int userMessageCount = users.get(i).getMessageCount(); // Gets message count from user Object
                         if (receivedSeqNumber != userMessageCount) {   // Tests to see whether the received sequence number matches that of the user object
                             System.out.println("Please resend message: " + userMessageCount); // Asks to resend the missing message
+                            send("Hey there "+users.get(i).getUserName() + " Please resend message: " + userMessageCount);
                             users.get(i).upDateMessageCount(); // Updates User Object message count so program can continue as usual
                         }
                         System.out.println("Sequence Number in User Object: " + userMessageCount);
                         send(name +": "+ receivedData);
+                        //if (users.get(i).getMessageCount()==2) {   // Used to test whether the sequence numbers are working. Comment out normally
+                          //  continue;
+                        //}
                         users.get(i).upDateMessageCount();
                     }
                 }
