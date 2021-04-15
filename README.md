@@ -10,7 +10,11 @@ This application is written entirely in Java.
 
 # Getting Started
 
-Users need to run GUI.java. The GUI will open and request that the user enter their name and IP address. The name needs to be entered in the first box and the IP address in the second. The chat will open and the user can begin communicating. 
+The server program, Server.java needs to be started. Users can then to run GUI.java. The GUI will open and request that the user enter their name and IP address. The name needs to be entered in the first box and the IP address in the second. The chat will open and the user can begin communicating. 
+
+A makefile has been included, after running the "make" command, "make runServer" can be used to run the server, and "make runClient" can be used to start the client chat GUI.
+
+This program only works over a local network, windows firewalls need to be disabled for the program to run properly.
 
 # Capabilities - User
 
